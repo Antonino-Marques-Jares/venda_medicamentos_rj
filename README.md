@@ -41,7 +41,7 @@ Com python monte um código que leia os arquivos csv's no diretório e insira li
 No meu caso inseria apenas se UF_VENDA = 'RJ' pois restringi a pesquisa ao Estado do Rio de Janeiro.
 
 ## Passo 4 Escrevi um post sobre o ajuste no MySQL para conseguir obter resultados desta tabela
-https://www.areadetrampo.com.br/quando-sua-tabela-tem-30-milhoes-de-registros-no-mysql/
+![Post sobre configurações no MySQL](https://www.areadetrampo.com.br/quando-sua-tabela-tem-30-milhoes-de-registros-no-mysql/)
 
 ### Passo 5 Fazer o agrupamento
 Na minha tabela só tenho registros do Estado do Rio de Janeiro por este motivo não tenho na tabela UF_VENDA
@@ -60,6 +60,7 @@ Ao limitar a consulta acima por um município conseguimos obter este resultado e
 Com o JSON podemos criar os gráficos com ajuda do JavaScript em um HTML, mas se preferir pode salvar em um csv e visualizar pelo PowerBI.
 
 ### Veja o resultado em
+![área de trampo - Venda medicamentos no Rio de Janeiro](https://www.areadetrampo.com.br/venda-de-medicamentos/)
 
 
 
