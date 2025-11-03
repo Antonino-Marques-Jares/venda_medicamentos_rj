@@ -17,7 +17,7 @@ Levantamento científico para estudantes de medicina, para que possam associar o
 ### Passo 1 - baixar as 95 planilhas 
 [ARQUIVOS](https://dados.gov.br/dados/conjuntos-dados/venda-de-medicamentos-controlados-e-antimicrobianos---medicamentos-industrializados)
 
-### Passo 2 - Criar a Tabela DDL
+### Passo 2 - Criar a Tabela DDL para receber os Dados do RJ
 CREATE TABLE `vendas_medicamentos` (
   `indice_global` bigint NOT NULL AUTO_INCREMENT,
   `ANO_VENDA` int DEFAULT NULL,
@@ -33,6 +33,8 @@ CREATE TABLE `vendas_medicamentos` (
   KEY `idx_municipio` (`MUNICIPIO_VENDA`),
   KEY `idx_principio` (`PRINCIPIO_ATIVO`)
 )
+
+**Observação: A tabela acima não comporta mais de um Estado pois retirei UF_VENDA. Caso deseje inserir mais de um estado observe o DICIONÁRIO DE DADOS apresentado. **
 
 ### Passo 3 Inserir os registros
 Com python monte um código que leia os arquivos csv's no diretório e insira linha a linha na tabela vendas_medicamentos
