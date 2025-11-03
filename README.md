@@ -1,1 +1,1 @@
-# venda_medicamentos_rj
+# venda de medicamentos no Estado do Rio de Janeiro
