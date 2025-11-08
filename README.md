@@ -33,14 +33,21 @@ CREATE TABLE `vendas_medicamentos` (
 
 **Observação: A tabela acima não comporta mais de um Estado pois retirei UF_VENDA. Caso deseje inserir mais de um estado observe o DICIONÁRIO DE DADOS apresentado. **
 
-### Passo 3 Inserir os registros
+### Passo 3 Inserir os registros (inserir_municipios_do_rj.py)
 Com python monte um código que leia os arquivos csv's no diretório e insira linha a linha na tabela vendas_medicamentos
 No meu caso inseria apenas se UF_VENDA = 'RJ' pois restringi a pesquisa ao Estado do Rio de Janeiro.
 
-## Passo 4 Escrevi um post sobre o ajuste no MySQL para conseguir obter resultados desta tabela
+### Passo 4 Inserir os registros de janeiro de 2016 separadamente 
+O arquivo csv referente a janeiro de 2016 está com separador diferente ';' por isso deve ser inserido separadamente.
+
+### Passo 5 Onde PRINCIPIO_ATIVO = '' 
+Alteramos para 'SEM INFORMAÇÃO' com
+UPDATE trampo.vendas_medicamentos SET PRINCIPIO_ATIVO = 'SEM INFORMAÇÃO'
+
+## Leia o post sobre o ajuste no MySQL que fiz para conseguir obter resultados desta tabela
 ![Post sobre configurações no MySQL](https://www.areadetrampo.com.br/quando-sua-tabela-tem-30-milhoes-de-registros-no-mysql/)
 
-### Passo 5 Fazer o agrupamento
+### Passo 7 Fazer o agrupamento (agrupamento_vendas_medicamentos.py)
 Na minha tabela só tenho registros do Estado do Rio de Janeiro por este motivo não tenho na tabela UF_VENDA
 Fiz uma lista com os Municípios do Rio de Janeiro e percorro cada item da lista e executo :
 SELECT 
@@ -52,8 +59,7 @@ FROM trampo.vendas_medicamentos
 WHERE MUNICIPIO_VENDA = [MUNICÍPIO]
 GROUP BY ANO_VENDA, MUNICIPIO_VENDA, PRINCIPIO_ATIVO;
 Ao limitar a consulta acima por um município conseguimos obter este resultado e salvar em um dataset pandas e repetimos isso para os 92 Municípios do Estado do RJ.
-
-### Passo 6 Salvar o resultado em um JSON ou CSV
+O código agrupamento_vendas_medicamentos.py cria um JSON e um CSV
 Com o JSON podemos criar os gráficos com ajuda do JavaScript em um HTML, mas se preferir pode salvar em um csv e visualizar pelo PowerBI.
 
 ### Veja o resultado em
