@@ -62,7 +62,7 @@ No meu caso inseri apenas registros onde UF_VENDA = 'RJ', pois minha pesquisa se
 O arquivo csv referente a janeiro de 2016 está com separador diferente ';' por isso deve ser inserido separadamente.
 
 ### Passo 5 Onde PRINCIPIO_ATIVO = '' 
-Alteramos para 'SEM INFORMAÇÃO' com
+Agora que já inserimos todos os registros que nos interessa a pesquisa alteramos onde PRINCIPIO_ATIVO = '' para 'SEM INFORMAÇÃO' com a execução na Base de Dados de 
 
 UPDATE trampo.vendas_medicamentos SET PRINCIPIO_ATIVO = 'SEM INFORMAÇÃO'
 
