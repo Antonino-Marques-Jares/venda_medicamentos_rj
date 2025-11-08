@@ -5,7 +5,9 @@
 
 ## Primeiro obstáculo para conseguir fazer este gráfico foi a quantidade de registros
 Somando todas as linhas dos 95 arquivos csv's teríamos quase meio Bilhão de linhas na tabela o que se mostrou inviável dentro dos meus recursos disponíveis.  
+
 Apesar de ser possível inserir  meio Bilhão de linhas em uma tabela MySQL, quando for realizar uma consulta provavelmente não vai concluir a não ser que faça paginação (fazer a consulta em partes menores).
+
 Portanto decidi não analisar todo o Brasil e me restringir a pesquisa ao Estado do Rio de Janeiro.
 
 # Objetivo deste projeto
@@ -34,7 +36,8 @@ CREATE TABLE `vendas_medicamentos` (
 **Observação: A tabela acima não comporta mais de um Estado pois retirei UF_VENDA. Caso deseje inserir mais de um estado observe o DICIONÁRIO DE DADOS apresentado. **
 
 ### Passo 3 Inserir os registros (inserir_municipios_do_rj.py)
-Com python monte um código que leia os arquivos csv's no diretório e insira linha a linha na tabela vendas_medicamentos
+Com python monte um código que leia os arquivos csv's no diretório e insira linha a linha na tabela vendas_medicamentos.
+
 No meu caso inseria apenas se UF_VENDA = 'RJ' pois restringi a pesquisa ao Estado do Rio de Janeiro.
 
 ### Passo 4 Inserir os registros de janeiro de 2016 separadamente 
@@ -42,6 +45,7 @@ O arquivo csv referente a janeiro de 2016 está com separador diferente ';' por 
 
 ### Passo 5 Onde PRINCIPIO_ATIVO = '' 
 Alteramos para 'SEM INFORMAÇÃO' com
+
 UPDATE trampo.vendas_medicamentos SET PRINCIPIO_ATIVO = 'SEM INFORMAÇÃO'
 
 ## Leia o post sobre o ajuste no MySQL que fiz para conseguir obter resultados desta tabela
@@ -49,20 +53,34 @@ UPDATE trampo.vendas_medicamentos SET PRINCIPIO_ATIVO = 'SEM INFORMAÇÃO'
 
 ### Passo 7 Fazer o agrupamento (agrupamento_vendas_medicamentos.py)
 Na minha tabela só tenho registros do Estado do Rio de Janeiro por este motivo não tenho na tabela UF_VENDA
+
 Fiz uma lista com os Municípios do Rio de Janeiro e percorro cada item da lista e executo :
+
 SELECT 
+
     ANO_VENDA, 
+    
     MUNICIPIO_VENDA, 
+    
     PRINCIPIO_ATIVO,
+    
     SUM(QTD_VENDIDA) as TOTAL_VENDIDO
+    
 FROM trampo.vendas_medicamentos  
+
 WHERE MUNICIPIO_VENDA = [MUNICÍPIO]
+
 GROUP BY ANO_VENDA, MUNICIPIO_VENDA, PRINCIPIO_ATIVO;
+
 Ao limitar a consulta acima por um município conseguimos obter este resultado e salvar em um dataset pandas e repetimos isso para os 92 Municípios do Estado do RJ.
+
 O código agrupamento_vendas_medicamentos.py cria um JSON e um CSV
+
 Com o JSON podemos criar os gráficos com ajuda do JavaScript em um HTML, mas se preferir pode salvar em um csv e visualizar pelo PowerBI.
 
+
 ### Veja o resultado em
+
 ![área de trampo - Venda medicamentos no Rio de Janeiro](https://www.areadetrampo.com.br/venda-de-medicamentos/)
 
 
