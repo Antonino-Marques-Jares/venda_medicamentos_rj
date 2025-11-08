@@ -56,7 +56,7 @@ Caso deseje inserir mais de um estado observe o DICIONÁRIO DE DADOS apresentado
 ### Passo 3 Inserir os registros (inserir_municipios_do_rj.py)
 Com python monte um código que leia os arquivos csv's no diretório e insira linha a linha na tabela vendas_medicamentos.
 
-No meu caso inseria apenas se UF_VENDA = 'RJ' pois restringi a pesquisa ao Estado do Rio de Janeiro.
+No meu caso inseri apenas registros onde UF_VENDA = 'RJ', pois minha pesquisa se restringiu ao Estado do Rio de Janeiro.
 
 ### Passo 4 Inserir os registros de janeiro de 2016 separadamente 
 O arquivo csv referente a janeiro de 2016 está com separador diferente ';' por isso deve ser inserido separadamente.
