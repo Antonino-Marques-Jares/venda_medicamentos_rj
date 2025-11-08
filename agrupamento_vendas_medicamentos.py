@@ -28,6 +28,81 @@ class AgrupadorVendasMedicamentos:
             'TOTAL_VENDIDO'
         ])
         self.tempo_espera = 1  # segundos entre consultas
+
+    # No método obter_estatisticas(), modifique:
+    def obter_estatisticas(self):
+        if self.df_final.empty:
+            return {"status": "vazio"}
+        
+        # Verificação de soma
+        soma_dataframe = float(self.df_final['TOTAL_VENDIDO'].sum())
+        soma_por_ano = 0
+        for ano in self.df_final['ANO_VENDA'].unique():
+            df_ano = self.df_final[self.df_final['ANO_VENDA'] == ano]
+            soma_por_ano += float(df_ano['TOTAL_VENDIDO'].sum())
+        
+        print(f"🔍 DEBUG - Soma pelo DataFrame: {soma_dataframe:,.0f}")
+        print(f"🔍 DEBUG - Soma por ano: {soma_por_ano:,.0f}")
+        print(f"🔍 DEBUG - Diferença: {soma_por_ano - soma_dataframe:,.0f}")
+        
+        estatisticas = {
+            "total_registros": len(self.df_final),
+            "municipios_unicos": self.df_final['MUNICIPIO_VENDA'].nunique(),
+            "anos_unicos": self.df_final['ANO_VENDA'].nunique(),
+            "principios_unicos": self.df_final['PRINCIPIO_ATIVO'].nunique(),
+            "total_vendido": soma_dataframe,  # Usar a soma direta do DataFrame
+            "data_geracao": datetime.now().isoformat()
+        }
+        
+        return estatisticas
+
+    def analisar_dados_por_ano(self):
+        """Faz análise detalhada por ano"""
+        if self.df_final.empty:
+            print("⚠️ DataFrame vazio")
+            return
+        
+        print("\n🔍 ANÁLISE DETALHADA POR ANO:")
+        print("=" * 50)
+        
+        # Anos presentes
+        anos_unicos = sorted(self.df_final['ANO_VENDA'].unique())
+        print(f"📅 ANOS NO DATAFRAME: {anos_unicos}")
+        
+        # Estatísticas por ano
+        for ano in anos_unicos:
+            df_ano = self.df_final[self.df_final['ANO_VENDA'] == ano]
+            total_vendido_ano = df_ano['TOTAL_VENDIDO'].sum()
+            municipios_ano = df_ano['MUNICIPIO_VENDA'].nunique()
+            
+            print(f"\n📊 {ano}:")
+            print(f"   📦 Total vendido: {total_vendido_ano:,.0f} unidades")
+            print(f"   🏙️  Municípios: {municipios_ano}")
+            print(f"   📋 Registros: {len(df_ano):,}")
+            
+            # Top 3 princípios ativos desse ano
+            top_principios = df_ano.groupby('PRINCIPIO_ATIVO')['TOTAL_VENDIDO'].sum().nlargest(3)
+            print(f"   💊 Top 3 princípios ativos:")
+            for principio, total in top_principios.items():
+                print(f"      - {principio}: {total:,.0f}")
+
+    def mostrar_amostra_2016(self, n=5):
+        """Mostra amostra específica de 2016"""
+        if self.df_final.empty:
+            return
+        
+        df_2016 = self.df_final[self.df_final['ANO_VENDA'] == 2016]
+        
+        if df_2016.empty:
+            print("\n❌ Nenhum dado encontrado para 2016")
+            return
+        
+        print(f"\n🎯 AMOSTRA DE DADOS DE 2016 (primeiros {n} registros):")
+        print("=" * 60)
+        print(df_2016.head(n).to_string(index=False))
+        
+        print(f"\n📈 Total de registros de 2016: {len(df_2016):,}")
+        print(f"📦 Volume total 2016: {df_2016['TOTAL_VENDIDO'].sum():,.0f} unidades")
         
     def obter_municipios_rj(self):
         """Obtém a lista de municípios do RJ do banco"""
@@ -288,6 +363,11 @@ def executar_processamento_completo():
     if sucesso and not agrupador.df_final.empty:
         print("\n✅ DADOS PROCESSADOS COM SUCESSO!")
         
+        # 🆕 NOVO: Análise detalhada
+        agrupador.analisar_dados_por_ano()
+        agrupador.mostrar_amostra_2016()
+        agrupador.obter_estatisticas()
+        
         # Salvar resultados
         json_path, csv_path = agrupador.salvar_ambos_formatos()
         
@@ -310,6 +390,8 @@ def executar_processamento_completo():
         
     else:
         print("❌ Nenhum dado foi processado!")
+
+
 
 if __name__ == "__main__":
     # Executar processamento COMPLETO (todos os 92 municípios)
