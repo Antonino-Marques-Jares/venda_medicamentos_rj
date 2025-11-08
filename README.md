@@ -49,7 +49,7 @@ CREATE TABLE `vendas_medicamentos` (
 )
 
 
-**Observação: A tabela acima não comporta mais de um Estado pois retirei UF_VENDA. Caso deseje inserir mais de um estado observe o DICIONÁRIO DE DADOS apresentado. **
+**Observação:** A tabela acima não comporta mais de um Estado pois retirei UF_VENDA. Caso deseje inserir mais de um estado observe o DICIONÁRIO DE DADOS apresentado.
 
 ### Passo 3 Inserir os registros (inserir_municipios_do_rj.py)
 Com python monte um código que leia os arquivos csv's no diretório e insira linha a linha na tabela vendas_medicamentos.
