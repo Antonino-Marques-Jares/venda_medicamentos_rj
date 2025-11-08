@@ -17,21 +17,37 @@ Levantamento científico para estudantes de medicina, para que possam associar o
 [ARQUIVOS](https://dados.gov.br/dados/conjuntos-dados/venda-de-medicamentos-controlados-e-antimicrobianos---medicamentos-industrializados)
 
 ### Passo 2 - Criar a Tabela DDL para receber os Dados do RJ
+
 CREATE TABLE `vendas_medicamentos` (
+
   `indice_global` bigint NOT NULL AUTO_INCREMENT,
+  
   `ANO_VENDA` int DEFAULT NULL,
+  
   `MES_VENDA` int DEFAULT NULL,
+  
   `PRINCIPIO_ATIVO` varchar(255) DEFAULT NULL,
+  
   `MUNICIPIO_VENDA` varchar(100) DEFAULT NULL,
+  
   `QTD_VENDIDA` int DEFAULT NULL,
+  
   `CONSELHO_PRESCRITOR` varchar(50) DEFAULT NULL,
+  
   `UF_CONSELHO_PRESCRITOR` varchar(2) DEFAULT NULL,
+  
   PRIMARY KEY (`indice_global`),
+  
   KEY `idx_groupby_principal` (`ANO_VENDA`,`MES_VENDA`,`MUNICIPIO_VENDA`,`PRINCIPIO_ATIVO`),
+  
   KEY `idx_ano_mes` (`ANO_VENDA`,`MES_VENDA`),
+  
   KEY `idx_municipio` (`MUNICIPIO_VENDA`),
+  
   KEY `idx_principio` (`PRINCIPIO_ATIVO`)
+  
 )
+
 
 **Observação: A tabela acima não comporta mais de um Estado pois retirei UF_VENDA. Caso deseje inserir mais de um estado observe o DICIONÁRIO DE DADOS apresentado. **
 
